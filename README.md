@@ -19,3 +19,5 @@ https://github.com/Azure-Samples/active-directory-dotnetcore-daemon-v2/tree/mast
 https://learn.microsoft.com/en-us/graph/sdks/choose-authentication-providers?tabs=CS
 
 https://oceanleaf.ch/azure-managed-identity/
+
+https://learningbydoing.cloud/blog/stop-using-client-secrets-start-using-managed-identities/
