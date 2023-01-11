@@ -6,6 +6,32 @@
 
 ## Using certificates or secrets
 
+```csharp
+
+public MsGraphEmailService(IOptions<GraphApplicationServicesConfiguration> graphAppServicesConfiguration)
+{
+    _configuration = graphAppServicesConfiguration.Value;
+    var scopes = _configuration.Scopes?.Split(' ');
+
+    var credential = new ChainedTokenCredential(
+        new ManagedIdentityCredential(),
+        new EnvironmentCredential());
+
+    _graphServiceClient = new GraphServiceClient(chainedTokenCredential, scopes);
+
+    var options = new TokenCredentialOptions
+    {
+        AuthorityHost = AzureAuthorityHosts.AzurePublicCloud
+    };
+
+    // https://docs.microsoft.com/dotnet/api/azure.identity.clientsecretcredential
+    var clientSecretCredential = new ClientSecretCredential(
+        _configuration.TenantId, _configuration.ClientId, _configuration.ClientSecret, options);
+
+    _graphServiceClient = new GraphServiceClient(clientSecretCredential, scopes);
+}
+```
+
 [secrets or certificates](https://learn.microsoft.com/en-us/azure/active-directory/develop/sample-v2-code#service--daemon)
 
 ## Links
