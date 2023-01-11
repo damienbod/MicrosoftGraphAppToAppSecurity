@@ -4,8 +4,6 @@
 
 [managed identity](https://learn.microsoft.com/en-us/azure/app-service/scenario-secure-app-access-microsoft-graph-as-app?tabs=azure-powershell)
 
-## Using certificates or secrets
-
 ```csharp
 
 public MsGraphEmailService(IOptions<GraphApplicationServicesConfiguration> graphAppServicesConfiguration)
@@ -30,6 +28,11 @@ public MsGraphEmailService(IOptions<GraphApplicationServicesConfiguration> graph
 
     _graphServiceClient = new GraphServiceClient(clientSecretCredential, scopes);
 }
+```
+
+## Using certificates or secrets
+
+```csharp
 ```
 
 [secrets or certificates](https://learn.microsoft.com/en-us/azure/active-directory/develop/sample-v2-code#service--daemon)
