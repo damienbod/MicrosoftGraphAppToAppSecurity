@@ -17,3 +17,5 @@ https://learn.microsoft.com/en-us/azure/active-directory/develop/sample-v2-code#
 https://github.com/Azure-Samples/active-directory-dotnetcore-daemon-v2/tree/master/1-Call-MSGraph
 
 https://learn.microsoft.com/en-us/graph/sdks/choose-authentication-providers?tabs=CS
+
+https://oceanleaf.ch/azure-managed-identity/
