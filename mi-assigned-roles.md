@@ -15,6 +15,8 @@ Type: Application
 Install-Module AzureAD -AllowClobber
 ```
 
+$DisplayNameServicePrincpal = the name of your Azure App service
+
 ```powershell
 $TenantID = "7ff95b15-dc21-4ba6-bc92-824856578fc1"
 $DisplayNameServicePrincpal ="GraphManagedIdentity20230112134834"
@@ -34,5 +36,7 @@ $AppRole = $GraphServicePrincipal.AppRoles | Where-Object {$_.Value -eq $Permiss
 New-AzureAdServiceAppRoleAssignment -ObjectId $sp.ObjectId -PrincipalId $sp.ObjectId -ResourceId $GraphServicePrincipal.ObjectId -Id $AppRole.Id
 
 ```
+
+The script can be validated in the Enterprise applications blade and then the permissions
 
 
