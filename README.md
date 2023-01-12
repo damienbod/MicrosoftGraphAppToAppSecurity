@@ -162,3 +162,5 @@ https://learn.microsoft.com/en-us/graph/sdks/choose-authentication-providers?tab
 https://oceanleaf.ch/azure-managed-identity/
 
 https://learningbydoing.cloud/blog/stop-using-client-secrets-start-using-managed-identities/
+
+https://github.com/Azure/azure-sdk-for-net
