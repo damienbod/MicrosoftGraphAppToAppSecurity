@@ -25,6 +25,7 @@ private GraphServiceClient GetGraphClientWithManagedIdentity()
 }
 ```
 
+Managed Identity dev environment
 ## Using Graph SDK with certificates or secrets
 
 Using Graph SDK client with a secret
@@ -164,3 +165,5 @@ https://oceanleaf.ch/azure-managed-identity/
 https://learningbydoing.cloud/blog/stop-using-client-secrets-start-using-managed-identities/
 
 https://github.com/Azure/azure-sdk-for-net
+
+https://learn.microsoft.com/en-us/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet
