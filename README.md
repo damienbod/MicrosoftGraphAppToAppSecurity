@@ -137,6 +137,8 @@ var app = ConfidentialClientApplicationBuilder.Create(config.ClientId)
 app.AddInMemoryTokenCache();
 ```
 
+The GraphServiceClient can be created using the DelegateAuthenticationProvider
+
 ```csharp
 GraphServiceClient graphServiceClient =
     new GraphServiceClient("https://graph.microsoft.com/V1.0/", 
