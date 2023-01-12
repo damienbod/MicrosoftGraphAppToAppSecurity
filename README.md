@@ -80,9 +80,13 @@ public class AadGraphSdkManagedIdentityAppClient
 
 ```
 
-Managed Identity dev environment
+### Managed Identity dev environment
 
-Why not use the EnvironmentCredential ?
+Why not use the EnvironmentCredential?
+
+The identitiy uses an Azure App registration to setup the secret, client etc and the secret should not be in th ecode. Env are usually saved to the debug profile and this gets pushed.
+
+A better way is to use a developement ClientSecretCredential and read the secret from the user secrets. The ClientSecretCredential only works in the dev env.
 
 ## Using Graph SDK with certificates or secrets
 
