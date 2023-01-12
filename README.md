@@ -1,5 +1,7 @@
 # Microsoft Graph App to App Security
 
+[![.NET](https://github.com/damienbod/MicrosoftGraphAppToAppSecurity/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/MicrosoftGraphAppToAppSecurity/actions/workflows/dotnet.yml)
+
 Accessing Microsoft Graph can be initialized for app-to-app (application permissions) security in three different ways. (Trusted clients)
 
 - Using Managed Identities
