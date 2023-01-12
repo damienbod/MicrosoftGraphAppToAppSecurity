@@ -12,4 +12,15 @@
 		<PackageReference Include="Microsoft.Identity.Web.TokenCache" Version="1.25.10" />
 	</ItemGroup>
 	
+	<ItemGroup>
+	  <Content Update="Pages\Index.cshtml">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	  <Content Update="Pages\Shared\_Layout.cshtml">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
+	</ItemGroup>
+	
 </Project>

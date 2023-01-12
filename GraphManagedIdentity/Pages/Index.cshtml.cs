@@ -1,20 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GraphManagedIdentity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GraphManagedIdentity.Pages
+namespace GraphManagedIdentity.Pages;
+
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly AadGraphSdkManagedIdentityAppClient _aadGraphSdkManagedIdentityAppClient;
+
+    public IndexModel(AadGraphSdkManagedIdentityAppClient aadGraphSdkManagedIdentityAppClient)
     {
-        private readonly ILogger<IndexModel> _logger;
+        _aadGraphSdkManagedIdentityAppClient = aadGraphSdkManagedIdentityAppClient;
+    }
 
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
+    public int UsersCount { get; set; }
 
-        public void OnGet()
-        {
+    public async Task OnGetAsync()
+    {
+        UsersCount = await _aadGraphSdkManagedIdentityAppClient.GetUsersAsync();
 
-        }
     }
 }
