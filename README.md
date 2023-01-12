@@ -77,7 +77,6 @@ public class AadGraphSdkManagedIdentityAppClient
         }
     }
 }
-
 ```
 
 ### Managed Identity dev environment

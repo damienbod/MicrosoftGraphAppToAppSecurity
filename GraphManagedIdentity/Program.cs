@@ -1,27 +1,26 @@
-namespace GraphManagedIdentity
+namespace GraphManagedIdentity;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+        var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddRazorPages();
+        builder.Services.AddRazorPages();
 
-            builder.Services.AddScoped<AadGraphSdkManagedIdentityAppClient>();
+        builder.Services.AddScoped<AadGraphSdkManagedIdentityAppClient>();
 
-            var app = builder.Build();
+        var app = builder.Build();
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
 
-            app.UseRouting();
+        app.UseRouting();
 
-            app.UseAuthorization();
+        app.UseAuthorization();
 
-            app.MapRazorPages();
+        app.MapRazorPages();
 
-            app.Run();
-        }
+        app.Run();
     }
 }
