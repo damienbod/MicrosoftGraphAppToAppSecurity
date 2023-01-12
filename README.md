@@ -1,5 +1,11 @@
 # Microsoft Graph App to App Security
 
+Accessing Microsoft Graph can be initialized for app-to-app security in three different ways.
+
+- Using Managed Identities
+- Using Azure SDK and Graph SDK directly
+- Using Micorosoft.Identity.Client and MSAL to acquire an access token which can be used directly against Graph or using GraphServiceClient with the DelegateAuthenticationProvider class
+
 ## Using managed identities
 
 [managed identity](https://learn.microsoft.com/en-us/azure/app-service/scenario-secure-app-access-microsoft-graph-as-app?tabs=azure-powershell)
