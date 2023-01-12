@@ -1,9 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>e677c33a-a48f-4ede-89d8-8619519f1d60</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Graph" Version="4.14.0" />
+    <PackageReference Include="Microsoft.Identity.Web.Certificate" Version="1.25.10" />
+	<PackageReference Include="Microsoft.Identity.Web.TokenCache" Version="1.25.10" />
+  </ItemGroup>
 
 </Project>

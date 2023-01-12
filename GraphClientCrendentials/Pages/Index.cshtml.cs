@@ -1,20 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel;
 
-namespace GraphClientCrendentials.Pages
+namespace GraphClientCrendentials.Pages;
+
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly AadGraphSdkApplicationClient _aadGraphApiApplicationClient;
+
+    public IndexModel(AadGraphSdkApplicationClient aadGraphApiApplicationClient)
     {
-        private readonly ILogger<IndexModel> _logger;
+        _aadGraphApiApplicationClient = aadGraphApiApplicationClient;
+    }
 
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            _logger = logger;
-        }
+    public int UsersCount { get; set; }
 
-        public void OnGet()
-        {
+    public async Task OnGetAsync()
+    {
+        UsersCount = await _aadGraphApiApplicationClient.GetUsersAsync();
 
-        }
     }
 }
