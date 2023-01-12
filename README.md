@@ -11,21 +11,79 @@ Accessing Microsoft Graph can be initialized for app-to-app (application permiss
 [managed identity](https://learn.microsoft.com/en-us/azure/app-service/scenario-secure-app-access-microsoft-graph-as-app?tabs=azure-powershell)
 
 ```csharp
-private GraphServiceClient GetGraphClientWithManagedIdentity()
+using Azure.Identity;
+using Microsoft.Graph;
+
+namespace GraphManagedIdentity;
+
+public class AadGraphSdkManagedIdentityAppClient
 {
-    string[] scopes = new[] { "https://graph.microsoft.com/.default" };
+    private readonly IConfiguration _configuration;
+    private readonly IHostEnvironment _environment;
 
-    var chainedTokenCredential = new ChainedTokenCredential(
-        new ManagedIdentityCredential(),
-        new EnvironmentCredential());
+    public AadGraphSdkManagedIdentityAppClient(IConfiguration configuration, IHostEnvironment environment)
+    {
+        _configuration = configuration;
+        _environment = environment;
+    }
 
-    var graphServiceClient = new GraphServiceClient(chainedTokenCredential, scopes);
+    public async Task<int> GetUsersAsync()
+    {
+        var graphServiceClient = GetGraphClientWithManagedIdentity();
 
-    return graphServiceClient;
+        IGraphServiceUsersCollectionPage users = await graphServiceClient.Users
+            .Request()
+            .GetAsync();
+
+        return users.Count;
+    }
+
+    private GraphServiceClient GetGraphClientWithManagedIdentity()
+    {
+        string[] scopes = new[] { "https://graph.microsoft.com/.default" };
+
+        var chainedTokenCredential = GetChainedTokenCredentials();
+        var graphServiceClient = new GraphServiceClient(chainedTokenCredential, scopes);
+
+        return graphServiceClient;
+    }
+
+    private ChainedTokenCredential GetChainedTokenCredentials()
+    {
+        if (!_environment.IsDevelopment())
+        {
+            return new ChainedTokenCredential(new ManagedIdentityCredential());
+        }
+        else // dev env
+        {
+            var tenantId = _configuration["AzureAd:TenantId"];
+            var clientId = _configuration.GetValue<string>("AzureAd:ClientId");
+            var clientSecret = _configuration.GetValue<string>("AzureAd:ClientSecret");
+
+            var options = new TokenCredentialOptions
+            {
+                AuthorityHost = AzureAuthorityHosts.AzurePublicCloud
+            };
+
+            // https://docs.microsoft.com/dotnet/api/azure.identity.clientsecretcredential
+            var devClientSecretCredential = new ClientSecretCredential(
+                tenantId, clientId, clientSecret, options);
+
+            var chainedTokenCredential = new ChainedTokenCredential(
+                new ManagedIdentityCredential(),
+                devClientSecretCredential);
+
+            return chainedTokenCredential;
+        }
+    }
 }
+
 ```
 
 Managed Identity dev environment
+
+Why not use the EnvironmentCredential ?
+
 ## Using Graph SDK with certificates or secrets
 
 Using Graph SDK client with a secret
