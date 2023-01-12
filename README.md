@@ -114,11 +114,44 @@ private async Task<X509Certificate2> GetCertificateAsync()
 [secrets or certificates](https://learn.microsoft.com/en-us/azure/active-directory/develop/sample-v2-code#service--daemon)
 
 
-## Using Graph through MSAL
+## Using Graph through MSAL using IConfidentialClientApplication
+
+Microsoft.Identity.Client: 
 
 ```csharp
+ var app = ConfidentialClientApplicationBuilder.Create(config.ClientId)
+    .WithClientSecret(config.ClientSecret)
+    .WithAuthority(new Uri(config.Authority))
+    .Build();
+
+app.AddInMemoryTokenCache();
+```
+or 
+
+```csharp
+var app = ConfidentialClientApplicationBuilder.Create(config.ClientId)
+    .WithCertificate(certificate)
+    .WithAuthority(new Uri(config.Authority))
+    .Build(); 
+  
+app.AddInMemoryTokenCache();
 ```
 
+```csharp
+GraphServiceClient graphServiceClient =
+    new GraphServiceClient("https://graph.microsoft.com/V1.0/", 
+        new DelegateAuthenticationProvider(async (requestMessage) =>
+        {
+            // Retrieve an access token for Microsoft Graph (gets a fresh token if needed).
+            AuthenticationResult result = await app.AcquireTokenForClient(scopes)
+                .ExecuteAsync();
+
+            // Add the access token in the Authorization header of the API request.
+            requestMessage.Headers.Authorization =
+                new AuthenticationHeaderValue("Bearer", result.AccessToken);
+        }));
+}
+```
 ## Links
 
 https://learn.microsoft.com/en-us/azure/app-service/scenario-secure-app-access-microsoft-graph-as-app?tabs=azure-powershell
