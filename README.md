@@ -1,6 +1,6 @@
 # Microsoft Graph App to App Security
 
-Accessing Microsoft Graph can be initialized for app-to-app security in three different ways.
+Accessing Microsoft Graph can be initialized for app-to-app (application permissions) security in three different ways. (Trusted clients)
 
 - Using Managed Identities
 - Using Azure SDK and Graph SDK directly
@@ -11,28 +11,17 @@ Accessing Microsoft Graph can be initialized for app-to-app security in three di
 [managed identity](https://learn.microsoft.com/en-us/azure/app-service/scenario-secure-app-access-microsoft-graph-as-app?tabs=azure-powershell)
 
 ```csharp
-
-public MsGraphEmailService(IOptions<GraphApplicationServicesConfiguration> graphAppServicesConfiguration)
+private GraphServiceClient GetGraphClientWithManagedIdentity()
 {
-    _configuration = graphAppServicesConfiguration.Value;
-    var scopes = _configuration.Scopes?.Split(' ');
+    string[] scopes = new[] { "https://graph.microsoft.com/.default" };
 
-    var credential = new ChainedTokenCredential(
+    var chainedTokenCredential = new ChainedTokenCredential(
         new ManagedIdentityCredential(),
         new EnvironmentCredential());
 
-    _graphServiceClient = new GraphServiceClient(chainedTokenCredential, scopes);
+    var graphServiceClient = new GraphServiceClient(chainedTokenCredential, scopes);
 
-    var options = new TokenCredentialOptions
-    {
-        AuthorityHost = AzureAuthorityHosts.AzurePublicCloud
-    };
-
-    // https://docs.microsoft.com/dotnet/api/azure.identity.clientsecretcredential
-    var clientSecretCredential = new ClientSecretCredential(
-        _configuration.TenantId, _configuration.ClientId, _configuration.ClientSecret, options);
-
-    _graphServiceClient = new GraphServiceClient(clientSecretCredential, scopes);
+    return graphServiceClient;
 }
 ```
 
