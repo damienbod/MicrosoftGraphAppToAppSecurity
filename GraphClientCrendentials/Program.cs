@@ -9,6 +9,7 @@ public class Program
         // Add services to the container.
         builder.Services.AddRazorPages();
 
+        builder.Services.AddSingleton<GraphService>();
         builder.Services.AddScoped<AadGraphSdkApplicationClient>();
 
         var app = builder.Build();
