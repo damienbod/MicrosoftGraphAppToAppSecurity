@@ -7,6 +7,7 @@ public class GraphService
 {
     private readonly IConfiguration _configuration;
     private readonly IHostEnvironment _environment;
+    private GraphServiceClient? _graphServiceClient;
 
     public GraphService(IConfiguration configuration, IHostEnvironment environment)
     {
@@ -16,12 +17,15 @@ public class GraphService
 
     public GraphServiceClient GetGraphClientWithManagedIdentityOrDevClient()
     {
+        if (_graphServiceClient != null)
+            return _graphServiceClient;
+
         string[] scopes = new[] { "https://graph.microsoft.com/.default" };
 
         var chainedTokenCredential = GetChainedTokenCredentials();
-        var graphServiceClient = new GraphServiceClient(chainedTokenCredential, scopes);
+        _graphServiceClient = new GraphServiceClient(chainedTokenCredential, scopes);
 
-        return graphServiceClient;
+        return _graphServiceClient;
     }
 
     private ChainedTokenCredential GetChainedTokenCredentials()

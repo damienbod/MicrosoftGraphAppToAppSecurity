@@ -8,6 +8,7 @@ namespace GraphClientCrendentials;
 public class GraphService
 {
     private readonly IConfiguration _configuration;
+    private GraphServiceClient? _graphServiceClient;
 
     public GraphService(IConfiguration configuration)
     {
@@ -20,6 +21,9 @@ public class GraphService
     /// <returns></returns>
     public GraphServiceClient GetGraphClientWithClientSecretCredential()
     {
+        if (_graphServiceClient != null)
+            return _graphServiceClient;
+
         string[] scopes = new[] { "https://graph.microsoft.com/.default" };
         var tenantId = _configuration["AzureAd:TenantId"];
 
@@ -36,7 +40,8 @@ public class GraphService
         var clientSecretCredential = new ClientSecretCredential(
             tenantId, clientId, clientSecret, options);
 
-        return new GraphServiceClient(clientSecretCredential, scopes);
+        _graphServiceClient = new GraphServiceClient(clientSecretCredential, scopes);
+        return _graphServiceClient;
     }
 
     /// <summary>
@@ -45,6 +50,9 @@ public class GraphService
     /// </summary>
     public async Task<GraphServiceClient> GetGraphClientWithClientCertificateCredentialAsync()
     {
+        if (_graphServiceClient != null)
+            return _graphServiceClient;
+
         string[] scopes = new[] { "https://graph.microsoft.com/.default" };
         var tenantId = _configuration["AzureAd:TenantId"];
 
@@ -65,7 +73,8 @@ public class GraphService
         // var clientCertificateCredential = new ClientCertificateCredential(
         //    tenantId, clientId, clientCertificatePath, options);
 
-        return new GraphServiceClient(clientCertificateCredential, scopes);
+         _graphServiceClient = new GraphServiceClient(clientCertificateCredential, scopes);
+        return _graphServiceClient;
     }
 
     private async Task<X509Certificate2> GetCertificateAsync()
