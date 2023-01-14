@@ -18,36 +18,29 @@ using Microsoft.Graph;
 
 namespace GraphManagedIdentity;
 
-public class AadGraphSdkManagedIdentityAppClient
+public class GraphApplicationClientService
 {
     private readonly IConfiguration _configuration;
     private readonly IHostEnvironment _environment;
+    private GraphServiceClient? _graphServiceClient;
 
-    public AadGraphSdkManagedIdentityAppClient(IConfiguration configuration, IHostEnvironment environment)
+    public GraphApplicationClientService(IConfiguration configuration, IHostEnvironment environment)
     {
         _configuration = configuration;
         _environment = environment;
     }
 
-    public async Task<int> GetUsersAsync()
+    public GraphServiceClient GetGraphClientWithManagedIdentityOrDevClient()
     {
-        var graphServiceClient = GetGraphClientWithManagedIdentity();
+        if (_graphServiceClient != null)
+            return _graphServiceClient;
 
-        IGraphServiceUsersCollectionPage users = await graphServiceClient.Users
-            .Request()
-            .GetAsync();
-
-        return users.Count;
-    }
-
-    private GraphServiceClient GetGraphClientWithManagedIdentity()
-    {
         string[] scopes = new[] { "https://graph.microsoft.com/.default" };
 
         var chainedTokenCredential = GetChainedTokenCredentials();
-        var graphServiceClient = new GraphServiceClient(chainedTokenCredential, scopes);
+        _graphServiceClient = new GraphServiceClient(chainedTokenCredential, scopes);
 
-        return graphServiceClient;
+        return _graphServiceClient;
     }
 
     private ChainedTokenCredential GetChainedTokenCredentials()
@@ -71,9 +64,7 @@ public class AadGraphSdkManagedIdentityAppClient
             var devClientSecretCredential = new ClientSecretCredential(
                 tenantId, clientId, clientSecret, options);
 
-            var chainedTokenCredential = new ChainedTokenCredential(
-                new ManagedIdentityCredential(),
-                devClientSecretCredential);
+            var chainedTokenCredential = new ChainedTokenCredential(devClientSecretCredential);
 
             return chainedTokenCredential;
         }

@@ -16,7 +16,7 @@ public class GraphApplicationClientService
     }
 
     /// <summary>
-    /// Using client secret
+    /// Using client secret from a singleton instance
     /// </summary>
     /// <returns></returns>
     public GraphServiceClient GetGraphClientWithClientSecretCredential()

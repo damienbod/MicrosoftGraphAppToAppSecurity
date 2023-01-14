@@ -15,6 +15,10 @@ public class GraphApplicationClientService
         _environment = environment;
     }
 
+    /// <summary>
+    /// gets a singleton instance of the GraphServiceClient
+    /// </summary>
+    /// <returns></returns>
     public GraphServiceClient GetGraphClientWithManagedIdentityOrDevClient()
     {
         if (_graphServiceClient != null)
@@ -49,9 +53,7 @@ public class GraphApplicationClientService
             var devClientSecretCredential = new ClientSecretCredential(
                 tenantId, clientId, clientSecret, options);
 
-            var chainedTokenCredential = new ChainedTokenCredential(
-                new ManagedIdentityCredential(),
-                devClientSecretCredential);
+            var chainedTokenCredential = new ChainedTokenCredential(devClientSecretCredential);
 
             return chainedTokenCredential;
         }
