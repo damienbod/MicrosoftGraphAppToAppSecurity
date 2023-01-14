@@ -8,7 +8,7 @@ public class Program
 
         builder.Services.AddRazorPages();
 
-        builder.Services.AddSingleton<GraphService>();
+        builder.Services.AddSingleton<GraphApplicationClientService>();
         builder.Services.AddScoped<AadGraphSdkManagedIdentityAppClient>();
 
         var app = builder.Build();

@@ -230,3 +230,5 @@ https://learningbydoing.cloud/blog/stop-using-client-secrets-start-using-managed
 https://github.com/Azure/azure-sdk-for-net
 
 https://learn.microsoft.com/en-us/dotnet/api/azure.identity.environmentcredential?view=azure-dotnet
+
+https://github.com/microsoftgraph/msgraph-sdk-dotnet/issues/58

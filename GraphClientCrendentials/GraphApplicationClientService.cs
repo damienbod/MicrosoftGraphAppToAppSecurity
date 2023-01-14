@@ -5,12 +5,12 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace GraphClientCrendentials;
 
-public class GraphService
+public class GraphApplicationClientService
 {
     private readonly IConfiguration _configuration;
     private GraphServiceClient? _graphServiceClient;
 
-    public GraphService(IConfiguration configuration)
+    public GraphApplicationClientService(IConfiguration configuration)
     {
         _configuration = configuration;
     }

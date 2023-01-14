@@ -8,9 +8,9 @@ namespace GraphClientCrendentials;
 public class AadGraphSdkApplicationClient
 {
     private readonly IConfiguration _configuration;
-    private readonly GraphService _graphService;
+    private readonly GraphApplicationClientService _graphService;
 
-    public AadGraphSdkApplicationClient(IConfiguration configuration, GraphService graphService)
+    public AadGraphSdkApplicationClient(IConfiguration configuration, GraphApplicationClientService graphService)
     {
         _configuration = configuration;
         _graphService = graphService;

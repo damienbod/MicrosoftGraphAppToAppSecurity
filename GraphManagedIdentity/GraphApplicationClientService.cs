@@ -3,13 +3,13 @@ using Microsoft.Graph;
 
 namespace GraphManagedIdentity;
 
-public class GraphService
+public class GraphApplicationClientService
 {
     private readonly IConfiguration _configuration;
     private readonly IHostEnvironment _environment;
     private GraphServiceClient? _graphServiceClient;
 
-    public GraphService(IConfiguration configuration, IHostEnvironment environment)
+    public GraphApplicationClientService(IConfiguration configuration, IHostEnvironment environment)
     {
         _configuration = configuration;
         _environment = environment;

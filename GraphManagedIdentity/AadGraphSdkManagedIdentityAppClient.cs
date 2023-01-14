@@ -5,9 +5,9 @@ namespace GraphManagedIdentity;
 public class AadGraphSdkManagedIdentityAppClient
 {
     private readonly IConfiguration _configuration;
-    private readonly GraphService _graphService;
+    private readonly GraphApplicationClientService _graphService;
 
-    public AadGraphSdkManagedIdentityAppClient(IConfiguration configuration, GraphService graphService)
+    public AadGraphSdkManagedIdentityAppClient(IConfiguration configuration, GraphApplicationClientService graphService)
     {
         _configuration = configuration;
         _graphService = graphService;
