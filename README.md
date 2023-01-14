@@ -84,8 +84,19 @@ A better way is to use a developement ClientSecretCredential and read the secret
 
 Using Graph SDK client with a secret
 ```csharp
-private GraphServiceClient GetGraphClientWithClientSecretCredential()
+private readonly IConfiguration _configuration;
+private GraphServiceClient? _graphServiceClient;
+
+public GraphApplicationClientService(IConfiguration configuration)
 {
+    _configuration = configuration;
+}
+
+public GraphServiceClient GetGraphClientWithClientSecretCredential()
+{
+    if (_graphServiceClient != null)
+        return _graphServiceClient;
+
     string[] scopes = new[] { "https://graph.microsoft.com/.default" };
     var tenantId = _configuration["AzureAd:TenantId"];
 
@@ -102,62 +113,78 @@ private GraphServiceClient GetGraphClientWithClientSecretCredential()
     var clientSecretCredential = new ClientSecretCredential(
         tenantId, clientId, clientSecret, options);
 
-    return new GraphServiceClient(clientSecretCredential, scopes);
+    _graphServiceClient = new GraphServiceClient(clientSecretCredential, scopes);
+    return _graphServiceClient;
 }
 ```
 
 Using Graph SDK client with a certificate
 
 ```csharp
-private async Task<GraphServiceClient> GetGraphClientWithClientCertificateCredentialAsync()
+public class GraphApplicationClientService
 {
-    string[] scopes = new[] { "https://graph.microsoft.com/.default" };
-    var tenantId = _configuration["AzureAd:TenantId"];
+    private readonly IConfiguration _configuration;
+    private GraphServiceClient? _graphServiceClient;
 
-    var options = new TokenCredentialOptions
+    public GraphApplicationClientService(IConfiguration configuration)
     {
-        AuthorityHost = AzureAuthorityHosts.AzurePublicCloud
-    };
+        _configuration = configuration;
+    }
 
-    // Values from app registration
-    var clientId = _configuration.GetValue<string>("AzureAd:ClientId");
+    public async Task<GraphServiceClient> GetGraphClientWithClientCertificateCredentialAsync()
+    {
+        if (_graphServiceClient != null)
+            return _graphServiceClient;
 
-    var certififacte = await GetCertificateAsync();
-    var clientCertificateCredential = new ClientCertificateCredential(
-        tenantId, clientId, certififacte, options);
+        string[] scopes = new[] { "https://graph.microsoft.com/.default" };
+        var tenantId = _configuration["AzureAd:TenantId"];
 
-    // var clientCertificatePath = _configuration.GetValue<string>("AzureAd:CertificateName");
-    // https://learn.microsoft.com/en-us/dotnet/api/azure.identity.clientcertificatecredential?view=azure-dotnet
-    // var clientCertificateCredential = new ClientCertificateCredential(
-    //    tenantId, clientId, clientCertificatePath, options);
+        var options = new TokenCredentialOptions
+        {
+            AuthorityHost = AzureAuthorityHosts.AzurePublicCloud
+        };
 
-    return new GraphServiceClient(clientCertificateCredential, scopes);
-}
+        // Values from app registration
+        var clientId = _configuration.GetValue<string>("AzureAd:ClientId");
 
-private async Task<X509Certificate2> GetCertificateAsync()
-{
-    var identifier = _configuration["AzureAd:ClientCertificates:0:KeyVaultCertificateName"];
+        var certififacte = await GetCertificateAsync();
+        var clientCertificateCredential = new ClientCertificateCredential(
+            tenantId, clientId, certififacte, options);
 
-    if (identifier == null)
-        throw new ArgumentNullException(nameof(identifier));
+        // var clientCertificatePath = _configuration.GetValue<string>("AzureAd:CertificateName");
+        // https://learn.microsoft.com/en-us/dotnet/api/azure.identity.clientcertificatecredential?view=azure-dotnet
+        // var clientCertificateCredential = new ClientCertificateCredential(
+        //    tenantId, clientId, clientCertificatePath, options);
 
-    var vaultBaseUrl = _configuration["CallApi:ClientCertificates:0:KeyVaultUrl"];
-    if(vaultBaseUrl == null)
-        throw new ArgumentNullException(nameof(vaultBaseUrl));
+         _graphServiceClient = new GraphServiceClient(clientCertificateCredential, scopes);
+        return _graphServiceClient;
+    }
 
-    var secretClient = new SecretClient(vaultUri: new Uri(vaultBaseUrl), credential: new DefaultAzureCredential());
+    private async Task<X509Certificate2> GetCertificateAsync()
+    {
+        var identifier = _configuration["AzureAd:ClientCertificates:0:KeyVaultCertificateName"];
 
-    // Create a new secret using the secret client.
-    var secretName = identifier;
-    //var secretVersion = "";
-    KeyVaultSecret secret = await secretClient.GetSecretAsync(secretName);
+        if (identifier == null)
+            throw new ArgumentNullException(nameof(identifier));
 
-    var privateKeyBytes = Convert.FromBase64String(secret.Value);
+        var vaultBaseUrl = _configuration["CallApi:ClientCertificates:0:KeyVaultUrl"];
+        if(vaultBaseUrl == null)
+            throw new ArgumentNullException(nameof(vaultBaseUrl));
 
-    var certificateWithPrivateKey = new X509Certificate2(privateKeyBytes,
-        string.Empty, X509KeyStorageFlags.MachineKeySet);
+        var secretClient = new SecretClient(vaultUri: new Uri(vaultBaseUrl), credential: new DefaultAzureCredential());
 
-    return certificateWithPrivateKey;
+        // Create a new secret using the secret client.
+        var secretName = identifier;
+        //var secretVersion = "";
+        KeyVaultSecret secret = await secretClient.GetSecretAsync(secretName);
+
+        var privateKeyBytes = Convert.FromBase64String(secret.Value);
+
+        var certificateWithPrivateKey = new X509Certificate2(privateKeyBytes,
+            string.Empty, X509KeyStorageFlags.MachineKeySet);
+
+        return certificateWithPrivateKey;
+    }
 }
 ```
 
