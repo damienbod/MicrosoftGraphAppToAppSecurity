@@ -84,7 +84,7 @@ public class GraphApplicationClientService
         if (identifier == null)
             throw new ArgumentNullException(nameof(identifier));
 
-        var vaultBaseUrl = _configuration["CallApi:ClientCertificates:0:KeyVaultUrl"];
+        var vaultBaseUrl = _configuration["AzureAd:ClientCertificates:0:KeyVaultUrl"];
         if(vaultBaseUrl == null)
             throw new ArgumentNullException(nameof(vaultBaseUrl));
 
