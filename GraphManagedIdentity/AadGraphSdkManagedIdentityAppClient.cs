@@ -16,6 +16,6 @@ public class AadGraphSdkManagedIdentityAppClient
         var users = await graphServiceClient.Users
             .GetAsync();
 
-        return users!.OdataCount;
+        return users!.Value!.Count;
     }
 }
