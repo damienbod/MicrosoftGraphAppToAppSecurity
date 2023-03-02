@@ -8,6 +8,10 @@ Accessing Microsoft Graph can be initialized for app-to-app (application permiss
 - Using Azure SDK and Graph SDK directly
 - Using Microsoft.Identity.Client and MSAL to acquire an access token which can be used directly against Graph or using GraphServiceClient with the DelegateAuthenticationProvider class
 
+## History
+
+2023-03-02 Updated packages, Microsoft.Graph 5.0.0
+
 ## Using managed identities
 
 [managed identity](https://learn.microsoft.com/en-us/azure/app-service/scenario-secure-app-access-microsoft-graph-as-app?tabs=azure-powershell)
