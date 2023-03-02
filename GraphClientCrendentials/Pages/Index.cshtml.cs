@@ -11,11 +11,10 @@ public class IndexModel : PageModel
         _aadGraphApiApplicationClient = aadGraphApiApplicationClient;
     }
 
-    public int UsersCount { get; set; }
+    public long? UsersCount { get; set; }
 
     public async Task OnGetAsync()
     {
         UsersCount = await _aadGraphApiApplicationClient.GetUsersAsync();
-
     }
 }

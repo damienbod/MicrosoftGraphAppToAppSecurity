@@ -12,7 +12,7 @@ public class IndexModel : PageModel
         _aadGraphSdkManagedIdentityAppClient = aadGraphSdkManagedIdentityAppClient;
     }
 
-    public int UsersCount { get; set; }
+    public long? UsersCount { get; set; }
 
     public async Task OnGetAsync()
     {
