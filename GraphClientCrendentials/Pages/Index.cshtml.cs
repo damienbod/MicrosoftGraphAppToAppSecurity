@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GraphClientCrendentials.Pages;
+namespace GraphClientCredentials.Pages;
 
 public class IndexModel : PageModel
 {

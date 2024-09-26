@@ -1,5 +1,4 @@
-﻿using GraphManagedIdentity;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace GraphManagedIdentity.Pages;
 

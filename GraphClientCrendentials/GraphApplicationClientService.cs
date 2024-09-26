@@ -3,7 +3,7 @@ using Azure.Security.KeyVault.Secrets;
 using Microsoft.Graph;
 using System.Security.Cryptography.X509Certificates;
 
-namespace GraphClientCrendentials;
+namespace GraphClientCredentials;
 
 public class GraphApplicationClientService
 {
@@ -24,7 +24,7 @@ public class GraphApplicationClientService
         if (_graphServiceClient != null)
             return _graphServiceClient;
 
-        string[] scopes = new[] { "https://graph.microsoft.com/.default" };
+        string[] scopes = ["https://graph.microsoft.com/.default"];
         var tenantId = _configuration["AzureAd:TenantId"];
 
         // Values from app registration
@@ -53,7 +53,7 @@ public class GraphApplicationClientService
         if (_graphServiceClient != null)
             return _graphServiceClient;
 
-        string[] scopes = new[] { "https://graph.microsoft.com/.default" };
+        string[] scopes = ["https://graph.microsoft.com/.default"];
         var tenantId = _configuration["AzureAd:TenantId"];
 
         var options = new TokenCredentialOptions
@@ -64,16 +64,16 @@ public class GraphApplicationClientService
         // Values from app registration
         var clientId = _configuration.GetValue<string>("AzureAd:ClientId");
 
-        var certififacte = await GetCertificateAsync();
+        var certificate = await GetCertificateAsync();
         var clientCertificateCredential = new ClientCertificateCredential(
-            tenantId, clientId, certififacte, options);
+            tenantId, clientId, certificate, options);
 
         // var clientCertificatePath = _configuration.GetValue<string>("AzureAd:CertificateName");
         // https://learn.microsoft.com/en-us/dotnet/api/azure.identity.clientcertificatecredential?view=azure-dotnet
         // var clientCertificateCredential = new ClientCertificateCredential(
         //    tenantId, clientId, clientCertificatePath, options);
 
-         _graphServiceClient = new GraphServiceClient(clientCertificateCredential, scopes);
+        _graphServiceClient = new GraphServiceClient(clientCertificateCredential, scopes);
         return _graphServiceClient;
     }
 
@@ -85,7 +85,7 @@ public class GraphApplicationClientService
             throw new ArgumentNullException(nameof(identifier));
 
         var vaultBaseUrl = _configuration["AzureAd:ClientCertificates:0:KeyVaultUrl"];
-        if(vaultBaseUrl == null)
+        if (vaultBaseUrl == null)
             throw new ArgumentNullException(nameof(vaultBaseUrl));
 
         var secretClient = new SecretClient(vaultUri: new Uri(vaultBaseUrl), credential: new DefaultAzureCredential());

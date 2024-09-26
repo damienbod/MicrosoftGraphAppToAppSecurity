@@ -1,4 +1,4 @@
-namespace GraphClientCrendentials;
+namespace GraphClientCredentials;
 
 public class Program
 {
