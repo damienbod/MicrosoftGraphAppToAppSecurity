@@ -10,6 +10,7 @@ Accessing Microsoft Graph can be initialized for app-to-app (application permiss
 
 ## History
 
+- 2025-02-07 Updated packages
 - 2024-11-15 .NET 9
 - 2024-09-26 Updated packages, .NET 8
 - 2023-03-02 Updated packages, Microsoft.Graph 5.0.0
