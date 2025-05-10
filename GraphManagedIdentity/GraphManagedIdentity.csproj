@@ -8,9 +8,9 @@
   </PropertyGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Graph" Version="5.69.0" />
-		<PackageReference Include="Microsoft.Identity.Web.Certificate" Version="3.7.0" />
-		<PackageReference Include="Microsoft.Identity.Web.TokenCache" Version="3.7.0" />
+		<PackageReference Include="Microsoft.Graph" Version="5.77.0" />
+		<PackageReference Include="Microsoft.Identity.Web.Certificate" Version="3.8.4" />
+		<PackageReference Include="Microsoft.Identity.Web.TokenCache" Version="3.8.4" />
 	</ItemGroup>
 	
 	<ItemGroup>
